@@ -1,103 +1,56 @@
 # GrocerApp
 
-A modern grocery delivery web application built with Ruby on Rails and Tailwind CSS.
+A modern e-commerce application for grocery shopping built with Ruby on Rails 7.2.2.1, PostgreSQL, and Tailwind CSS.
 
 ## Features
 
 - User authentication with Devise
-- Product catalog with categories and search
+- Product catalog with categories
 - Shopping cart functionality
-- Wishlist management
-- Order processing and tracking
-- Admin interface with ActiveAdmin
-- Real-time search with Stimulus.js
+- Search and filtering
 - Responsive design with Tailwind CSS
-- Email notifications
-- Performance optimization with caching
+- Admin interface for product management
 
-## Prerequisites
+## Requirements
 
 - Ruby 3.1.7
 - PostgreSQL
-- Redis (for caching and background jobs)
-- Node.js and Yarn
-- ImageMagick (for image processing)
+- Node.js
+- Yarn
 
-## Installation
+## Setup
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/grocerapp.git
-   cd grocerapp
-   ```
+```bash
+git clone https://github.com/yourusername/groceryapp.git
+cd groceryapp
+```
 
 2. Install dependencies:
-   ```bash
-   bundle install
-   yarn install
-   ```
+```bash
+bundle install
+yarn install
+```
 
-3. Set up the database:
-   ```bash
-   rails db:create
-   rails db:migrate
-   rails db:seed
-   ```
+3. Setup database:
+```bash
+cp config/database.yml.example config/database.yml
+rails db:create db:migrate db:seed
+```
 
-4. Set up environment variables:
-   Create a `.env` file in the root directory and add the following:
-   ```
-   DATABASE_URL=postgres://username:password@localhost/grocerapp_development
-   REDIS_URL=redis://localhost:6379/1
-   RAILS_MASTER_KEY=your_master_key
-   ```
-
-5. Start the servers:
-   ```bash
-   ./bin/dev
-   ```
+4. Start the server:
+```bash
+bin/dev
+```
 
 The application will be available at http://localhost:3000
 
-## Running Tests
+## Testing
 
+To run the test suite:
 ```bash
 bundle exec rspec
 ```
-
-## Background Jobs
-
-The application uses Sidekiq for processing background jobs. To start Sidekiq:
-
-```bash
-bundle exec sidekiq
-```
-
-## Caching
-
-The application uses Redis for caching. Make sure Redis is running:
-
-```bash
-redis-server
-```
-
-## Deployment
-
-The application is configured for deployment on any platform that supports Ruby on Rails. A Dockerfile is included for containerized deployment.
-
-1. Build the Docker image:
-   ```bash
-   docker build -t grocerapp .
-   ```
-
-2. Run the container:
-   ```bash
-   docker run -p 3000:3000 -e RAILS_MASTER_KEY=your_master_key grocerapp
-   ```
-
-## API Documentation
-
-The application provides a JSON API for products and orders. See the [API documentation](docs/api.md) for details.
 
 ## Contributing
 

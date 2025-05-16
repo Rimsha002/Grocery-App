@@ -7,10 +7,6 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore all environment files (except templates).
-/.env*
-!/.env*.erb
-
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
@@ -22,14 +18,61 @@
 !/tmp/pids/
 !/tmp/pids/.keep
 
-# Ignore storage (uploaded files in development and any SQLite databases).
+# Ignore uploaded files in development.
 /storage/*
 !/storage/.keep
 /tmp/storage/*
 !/tmp/storage/
 !/tmp/storage/.keep
 
-/public/assets
-
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/credentials/*.key
+
+# Ignore assets
+/public/assets
+/app/assets/builds/*
+!/app/assets/builds/.keep
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Database configuration
+/config/database.yml
+
+# Node modules
+/node_modules
+
+# Yarn
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+# macOS
+.DS_Store
+
+# Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Coverage
+/coverage/
+
+# Ignore precompiled javascript packs
+/public/packs
+/public/packs-test
+/public/assets
+
+# Ignore yarn files
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+# Ignore uploaded files in development
+/storage/*
+!/storage/.keep
+/public/uploads

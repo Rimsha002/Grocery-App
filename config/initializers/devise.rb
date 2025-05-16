@@ -86,11 +86,11 @@ Devise.setup do |config|
   # without confirming their account.
   # Default is 0.days, meaning the user cannot access the website without
   # confirming their account.
-  # config.allow_unconfirmed_access_for = 2.days
+  config.reconfirmable = true
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
-  config.remember_for = 2.weeks
+  config.expire_all_remember_me_on_sign_out = true
 
   # ==> Configuration for :validatable
   # Range for password length.
@@ -122,5 +122,12 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET']
+  config.omniauth :google_oauth2,
+                  Rails.application.credentials.dig(:google, :client_id),
+                  Rails.application.credentials.dig(:google, :client_secret),
+                  scope: %w[email profile]
+
+  # ==> Configuration for :responder
+  config.responder.error_status = :unprocessable_entity
+  config.responder.redirect_status = :see_other
 end 

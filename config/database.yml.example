@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: your_username
+  password: your_password
+
+development:
+  <<: *default
+  database: groceryapp_development
+
+test:
+  <<: *default
+  database: groceryapp_test
+
+production:
+  <<: *default
+  database: groceryapp_production
+  username: groceryapp
+  password: <%= ENV["GROCERYAPP_DATABASE_PASSWORD"] %> 
