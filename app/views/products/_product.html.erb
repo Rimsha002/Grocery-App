@@ -1,0 +1,65 @@
+<% cache [product, current_user&.wishlisted?(product)] do %>
+  <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden">
+    <div class="relative">
+      <%= link_to product_path(product) do %>
+        <% if product.images.attached? %>
+          <%= image_tag product.images.first, class: "w-full h-48 object-cover" %>
+        <% else %>
+          <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+            <span class="text-gray-400">No image</span>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if product.compare_at_price && product.compare_at_price > product.price %>
+        <div class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+          <%= "#{product.discount_percentage}% OFF" %>
+        </div>
+      <% end %>
+
+      <div class="absolute top-2 right-2">
+        <%= render "shared/wishlist_button", product: product %>
+      </div>
+    </div>
+
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-gray-900 mb-1">
+        <%= link_to product.name, product_path(product), class: "hover:text-primary-600" %>
+      </h3>
+
+      <p class="text-sm text-gray-500 mb-2"><%= product.category.name %></p>
+
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-baseline">
+          <span class="text-lg font-bold text-primary-600">$<%= number_with_precision(product.price, precision: 2) %></span>
+          <% if product.compare_at_price && product.compare_at_price > product.price %>
+            <span class="ml-2 text-sm text-gray-500 line-through">
+              $<%= number_with_precision(product.compare_at_price, precision: 2) %>
+            </span>
+          <% end %>
+        </div>
+
+        <div class="flex items-center">
+          <% if product.rating.present? %>
+            <div class="flex items-center">
+              <%= render "shared/rating", rating: product.rating %>
+              <span class="ml-1 text-sm text-gray-500">(<%= product.reviews.count %>)</span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <% if product.in_stock? %>
+          <%= button_to add_to_cart_product_path(product), method: :post, class: "w-full bg-primary-600 text-white py-2 px-4 rounded-lg hover:bg-primary-700 transition duration-150 ease-in-out" do %>
+            Add to Cart
+          <% end %>
+        <% else %>
+          <button disabled class="w-full bg-gray-300 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed">
+            Out of Stock
+          </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %> 

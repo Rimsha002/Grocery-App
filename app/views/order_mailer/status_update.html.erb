@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+      /* Email styles */
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.5;
+        color: #333;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #16a34a;
+        text-decoration: none;
+      }
+      .order-info {
+        background-color: #f9fafb;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+      .order-number {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .order-status {
+        display: inline-block;
+        background-color: #dcfce7;
+        color: #16a34a;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      .button {
+        display: inline-block;
+        background-color: #16a34a;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        text-decoration: none;
+        margin-top: 20px;
+      }
+      .footer {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 14px;
+        color: #6b7280;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="header">
+      <%= link_to root_url, class: "logo" do %>
+        GrocerApp
+      <% end %>
+    </div>
+
+    <p>Dear <%= @user.first_name %>,</p>
+
+    <p>We wanted to let you know that your order status has been updated.</p>
+
+    <div class="order-info">
+      <div class="order-number">
+        Order #<%= @order.number %>
+      </div>
+      <div class="order-status">
+        <%= @order.status.titleize %>
+      </div>
+      <p>
+        <% case @order.status %>
+        <% when 'processing' %>
+          Your order is being processed and will be prepared for delivery soon.
+        <% when 'preparing' %>
+          We're currently preparing your order for delivery.
+        <% when 'out_for_delivery' %>
+          Your order is out for delivery and will arrive shortly.
+        <% when 'delivered' %>
+          Your order has been delivered successfully.
+        <% when 'cancelled' %>
+          Your order has been cancelled. If you didn't request this cancellation, please contact our support team.
+        <% end %>
+      </p>
+    </div>
+
+    <% if @order.estimated_delivery_time.present? %>
+      <p>
+        <strong>Estimated Delivery Time:</strong><br>
+        <%= @order.estimated_delivery_time.strftime("%B %d, %Y between %I:%M %p - %I:%M %p") %>
+      </p>
+    <% end %>
+
+    <%= link_to "View Order Details", order_url(@order), class: "button" %>
+
+    <div class="footer">
+      <p>
+        If you have any questions about your order, please don't hesitate to
+        <%= mail_to "support@grocerapp.com", "contact our support team" %>.
+      </p>
+      <p>
+        Thank you for shopping with GrocerApp!
+      </p>
+    </div>
+  </body>
+</html> 

@@ -1,0 +1,151 @@
+<%# Account Dashboard %>
+<div class="bg-white">
+  <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <div class="border-b border-gray-200 pb-5">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900">My Account</h1>
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <%# Sidebar Navigation %>
+      <div class="lg:col-span-1">
+        <nav class="space-y-1" aria-label="Account">
+          <%= link_to account_dashboard_path, 
+              class: "bg-green-50 border-green-500 text-green-700 hover:bg-green-50 hover:text-green-700 group border-l-4 px-3 py-2 flex items-center text-sm font-medium" do %>
+            <svg class="text-green-500 group-hover:text-green-500 -ml-1 mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span>Dashboard</span>
+          <% end %>
+
+          <%= link_to edit_account_profile_path,
+              class: "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium" do %>
+            <svg class="text-gray-400 group-hover:text-gray-500 -ml-1 mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <span>Profile Settings</span>
+          <% end %>
+
+          <%= link_to orders_path,
+              class: "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium" do %>
+            <svg class="text-gray-400 group-hover:text-gray-500 -ml-1 mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span>Orders</span>
+          <% end %>
+
+          <%= link_to wishlists_path,
+              class: "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium" do %>
+            <svg class="text-gray-400 group-hover:text-gray-500 -ml-1 mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            <span>Wishlist</span>
+          <% end %>
+
+          <%= link_to account_addresses_path,
+              class: "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium" do %>
+            <svg class="text-gray-400 group-hover:text-gray-500 -ml-1 mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>Addresses</span>
+          <% end %>
+        </nav>
+      </div>
+
+      <%# Main Content %>
+      <div class="lg:col-span-2">
+        <%# Profile Overview %>
+        <div class="bg-white shadow sm:rounded-lg">
+          <div class="px-4 py-5 sm:px-6">
+            <h2 class="text-lg font-medium text-gray-900">Profile Overview</h2>
+          </div>
+          <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+            <div class="flex items-center">
+              <div class="flex-shrink-0 h-20 w-20">
+                <% if current_user.avatar.attached? %>
+                  <%= image_tag current_user.avatar, class: "h-20 w-20 rounded-full" %>
+                <% else %>
+                  <div class="h-20 w-20 rounded-full bg-green-100 flex items-center justify-center">
+                    <span class="text-2xl text-green-600"><%= current_user.first_name[0] %></span>
+                  </div>
+                <% end %>
+              </div>
+              <div class="ml-6">
+                <h3 class="text-xl font-medium text-gray-900">
+                  <%= current_user.full_name %>
+                </h3>
+                <p class="text-sm text-gray-500">
+                  <%= current_user.email %>
+                </p>
+                <p class="mt-1 text-sm text-gray-500">
+                  Member since <%= current_user.created_at.strftime("%B %Y") %>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%# Recent Orders %>
+        <div class="mt-6 bg-white shadow sm:rounded-lg">
+          <div class="px-4 py-5 sm:px-6">
+            <div class="flex items-center justify-between">
+              <h2 class="text-lg font-medium text-gray-900">Recent Orders</h2>
+              <%= link_to "View All Orders", orders_path, class: "text-sm text-green-600 hover:text-green-500" %>
+            </div>
+          </div>
+          <div class="border-t border-gray-200">
+            <% if @recent_orders.any? %>
+              <ul role="list" class="divide-y divide-gray-200">
+                <% @recent_orders.each do |order| %>
+                  <li>
+                    <%= link_to order_path(order), class: "block hover:bg-gray-50" do %>
+                      <div class="px-4 py-4 sm:px-6">
+                        <div class="flex items-center justify-between">
+                          <div class="truncate">
+                            <div class="flex text-sm">
+                              <p class="font-medium text-green-600 truncate">Order #<%= order.id %></p>
+                              <p class="ml-1 flex-shrink-0 font-normal text-gray-500">
+                                placed on <%= order.created_at.strftime("%B %d, %Y") %>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="ml-2 flex-shrink-0">
+                            <span class="inline-flex rounded-full px-2 text-xs font-semibold leading-5
+                                <%= case order.status
+                                    when 'pending' then 'bg-yellow-100 text-yellow-800'
+                                    when 'processing' then 'bg-blue-100 text-blue-800'
+                                    when 'completed' then 'bg-green-100 text-green-800'
+                                    when 'cancelled' then 'bg-red-100 text-red-800'
+                                    end %>">
+                              <%= order.status.titleize %>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="mt-2 sm:flex sm:justify-between">
+                          <div class="sm:flex">
+                            <p class="flex items-center text-sm text-gray-500">
+                              <%= pluralize(order.order_items.sum(:quantity), 'item') %>
+                            </p>
+                          </div>
+                          <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                            <p>
+                              Total: $<%= number_with_precision(order.total, precision: 2) %>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            <% else %>
+              <div class="text-center py-6">
+                <p class="text-sm text-gray-500">No orders yet</p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

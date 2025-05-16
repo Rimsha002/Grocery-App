@@ -1,0 +1,65 @@
+<%# Wishlist Form %>
+<%= form_with(model: wishlist, class: "space-y-8") do |f| %>
+  <div class="bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+        <%# Wishlist Name %>
+        <div class="sm:col-span-4">
+          <%= f.label :name, class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.text_field :name,
+                class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm",
+                required: true,
+                placeholder: "e.g., My Favorite Products" %>
+          </div>
+        </div>
+
+        <%# Description (Optional) %>
+        <div class="sm:col-span-6">
+          <%= f.label :description, class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.text_area :description,
+                rows: 3,
+                class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm",
+                placeholder: "Add a description for your wishlist (optional)" %>
+          </div>
+          <p class="mt-2 text-sm text-gray-500">
+            Brief description of what this wishlist is for.
+          </p>
+        </div>
+
+        <%# Privacy Setting %>
+        <div class="sm:col-span-6">
+          <fieldset>
+            <legend class="text-sm font-medium text-gray-700">Privacy</legend>
+            <div class="mt-4 space-y-4">
+              <div class="flex items-center">
+                <%= f.radio_button :is_public, true,
+                    class: "h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500" %>
+                <%= f.label :is_public_true, class: "ml-3" do %>
+                  <span class="block text-sm font-medium text-gray-700">Public</span>
+                  <span class="block text-sm text-gray-500">Anyone can see this wishlist</span>
+                <% end %>
+              </div>
+              <div class="flex items-center">
+                <%= f.radio_button :is_public, false,
+                    class: "h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500" %>
+                <%= f.label :is_public_false, class: "ml-3" do %>
+                  <span class="block text-sm font-medium text-gray-700">Private</span>
+                  <span class="block text-sm text-gray-500">Only you can see this wishlist</span>
+                <% end %>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# Form Actions %>
+  <div class="flex justify-end space-x-3">
+    <%= link_to "Cancel", wishlists_path,
+        class: "rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+    <%= f.submit class: "rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" %>
+  </div>
+<% end %> 

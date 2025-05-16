@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .header {
+        text-align: center;
+        padding: 20px 0;
+        border-bottom: 2px solid #eee;
+      }
+      .status-update {
+        margin: 20px 0;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        text-align: center;
+      }
+      .status-badge {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+        color: white;
+        background-color: #4CAF50;
+      }
+      .order-info {
+        margin: 20px 0;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #eee;
+        border-radius: 5px;
+      }
+      .footer {
+        margin-top: 30px;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Order Status Update</h1>
+      </div>
+
+      <div class="status-update">
+        <h2>Your order status has been updated</h2>
+        <div class="status-badge" style="background-color: <%= status_color(@order.status) %>;">
+          <%= @order.status.titleize %>
+        </div>
+        <p><%= status_message(@order.status) %></p>
+      </div>
+
+      <div class="order-info">
+        <h3>Order Details</h3>
+        <p>Order #<%= @order.id %></p>
+        <p>Order Date: <%= @order.created_at.strftime("%B %d, %Y") %></p>
+        <% if @order.estimated_delivery_time.present? %>
+          <p>Estimated Delivery: <%= @order.estimated_delivery_time.strftime("%B %d, %Y between %I:%M %p - %I:%M %p") %></p>
+        <% end %>
+      </div>
+
+      <div class="footer">
+        <p>
+          Track your order anytime by visiting your account dashboard.<br>
+          If you have any questions, please contact our customer service:<br>
+          Email: support@grocerapp.com<br>
+          Phone: 1-800-GROCER-APP
+        </p>
+        <p>Thank you for shopping with GrocerApp!</p>
+      </div>
+    </div>
+  </body>
+</html> 

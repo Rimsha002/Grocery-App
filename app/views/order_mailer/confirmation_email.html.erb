@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .header {
+        text-align: center;
+        padding: 20px 0;
+        border-bottom: 2px solid #eee;
+      }
+      .order-details {
+        margin: 20px 0;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+      }
+      .product-list {
+        margin: 20px 0;
+      }
+      .product-item {
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .total {
+        margin-top: 20px;
+        text-align: right;
+        font-weight: bold;
+      }
+      .footer {
+        margin-top: 30px;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Order Confirmation</h1>
+        <p>Thank you for your order!</p>
+      </div>
+
+      <div class="order-details">
+        <h2>Order #<%= @order.id %></h2>
+        <p>Order Date: <%= @order.created_at.strftime("%B %d, %Y") %></p>
+        <p>Delivery Address:</p>
+        <p>
+          <%= @order.address.full_name %><br>
+          <%= @order.address.street_address %><br>
+          <%= @order.address.city %>, <%= @order.address.state %> <%= @order.address.zip_code %>
+        </p>
+      </div>
+
+      <div class="product-list">
+        <h3>Order Items:</h3>
+        <% @order.order_items.each do |item| %>
+          <div class="product-item">
+            <p>
+              <%= item.product.name %> x <%= item.quantity %><br>
+              <span style="color: #666;">Unit Price: $<%= number_with_precision(item.unit_price, precision: 2) %></span><br>
+              <strong>Subtotal: $<%= number_with_precision(item.total_price, precision: 2) %></strong>
+            </p>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="total">
+        <p>Subtotal: $<%= number_with_precision(@order.subtotal, precision: 2) %></p>
+        <p>Delivery Fee: $<%= number_with_precision(@order.delivery_fee, precision: 2) %></p>
+        <% if @order.discount.present? %>
+          <p>Discount: -$<%= number_with_precision(@order.discount_amount, precision: 2) %></p>
+        <% end %>
+        <p style="font-size: 18px;">Total: $<%= number_with_precision(@order.total, precision: 2) %></p>
+      </div>
+
+      <div class="footer">
+        <p>
+          If you have any questions about your order, please contact our customer service:<br>
+          Email: support@grocerapp.com<br>
+          Phone: 1-800-GROCER-APP
+        </p>
+        <p>Thank you for shopping with GrocerApp!</p>
+      </div>
+    </div>
+  </body>
+</html> 

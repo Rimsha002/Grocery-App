@@ -1,0 +1,83 @@
+<%# Orders Index Page %>
+<div class="bg-white">
+  <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <div class="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900">Your Orders</h1>
+      <%= link_to "Continue Shopping", products_path, 
+          class: "hidden text-sm font-semibold text-green-600 hover:text-green-500 sm:block" %>
+    </div>
+
+    <div class="mt-8">
+      <% if @orders.empty? %>
+        <div class="text-center py-12">
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+          <h3 class="mt-2 text-sm font-medium text-gray-900">No orders</h3>
+          <p class="mt-1 text-sm text-gray-500">Get started by shopping for some products.</p>
+          <div class="mt-6">
+            <%= link_to "Browse Products", products_path, 
+                class: "inline-flex items-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" %>
+          </div>
+        </div>
+      <% else %>
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Order #</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Total</th>
+                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                  <span class="sr-only">Actions</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+              <% @orders.each do |order| %>
+                <tr>
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                    <%= order.id %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    <%= order.created_at.strftime("%B %d, %Y") %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm">
+                    <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
+                        <%= case order.status
+                            when 'pending' then 'bg-yellow-100 text-yellow-800'
+                            when 'processing' then 'bg-blue-100 text-blue-800'
+                            when 'completed' then 'bg-green-100 text-green-800'
+                            when 'cancelled' then 'bg-red-100 text-red-800'
+                            end %>">
+                      <%= order.status.titleize %>
+                    </span>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    $<%= number_with_precision(order.total, precision: 2) %>
+                  </td>
+                  <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                    <%= link_to "View", order_path(order), 
+                        class: "text-green-600 hover:text-green-900" %>
+                    <% if order.can_cancel? %>
+                      <%= button_to "Cancel", cancel_order_path(order),
+                          method: :patch,
+                          class: "ml-4 text-red-600 hover:text-red-900",
+                          data: { confirm: "Are you sure you want to cancel this order?" } %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <%# Pagination %>
+        <div class="mt-8">
+          <%= paginate @orders %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div> 

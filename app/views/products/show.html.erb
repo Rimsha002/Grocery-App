@@ -1,0 +1,206 @@
+<%# Product Show Page %>
+<% content_for :head do %>
+  <meta name="description" content="<%= @product.description.truncate(160) %>">
+  <meta property="og:title" content="<%= @product.name %> - GrocerApp">
+  <meta property="og:description" content="<%= @product.description.truncate(160) %>">
+  <% if @product.images.attached? %>
+    <meta property="og:image" content="<%= url_for(@product.images.first) %>">
+  <% end %>
+  
+  <%# Social Media Meta Tags %>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= @product.name %> - GrocerApp">
+  <meta name="twitter:description" content="<%= @product.description.truncate(160) %>">
+  <% if @product.images.attached? %>
+    <meta name="twitter:image" content="<%= url_for(@product.images.first) %>">
+  <% end %>
+<% end %>
+
+<% cache [@product, current_user&.wishlisted?(@product)] do %>
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Product Images -->
+      <div class="relative">
+        <% if @product.images.attached? %>
+          <div class="swiper-container product-images">
+            <div class="swiper-wrapper">
+              <% @product.images.each do |image| %>
+                <div class="swiper-slide">
+                  <%= image_tag image, class: "w-full h-96 object-cover rounded-lg" %>
+                </div>
+              <% end %>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </div>
+        <% else %>
+          <div class="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
+            <span class="text-gray-400">No image available</span>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Product Info -->
+      <div>
+        <nav class="flex mb-4" aria-label="Breadcrumb">
+          <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li><%= link_to "Home", root_path, class: "text-gray-500 hover:text-gray-700" %></li>
+            <li><span class="text-gray-400 mx-2">/</span></li>
+            <li><%= link_to @product.category.name, category_path(@product.category), class: "text-gray-500 hover:text-gray-700" %></li>
+            <li><span class="text-gray-400 mx-2">/</span></li>
+            <li class="text-gray-900"><%= @product.name %></li>
+          </ol>
+        </nav>
+
+        <h1 class="text-3xl font-bold text-gray-900 mb-4"><%= @product.name %></h1>
+
+        <div class="flex items-center mb-4">
+          <%= render "shared/rating", rating: @product.average_rating %>
+          <span class="ml-2 text-gray-600">
+            <%= pluralize(@product.reviews.count, 'review') %>
+          </span>
+        </div>
+
+        <div class="flex items-baseline mb-4">
+          <span class="text-3xl font-bold text-primary-600">
+            $<%= number_with_precision(@product.price, precision: 2) %>
+          </span>
+          <% if @product.compare_at_price && @product.compare_at_price > @product.price %>
+            <span class="ml-4 text-xl text-gray-500 line-through">
+              $<%= number_with_precision(@product.compare_at_price, precision: 2) %>
+            </span>
+            <span class="ml-4 text-sm font-semibold text-red-500">
+              <%= @product.discount_percentage %>% OFF
+            </span>
+          <% end %>
+        </div>
+
+        <div class="prose prose-sm text-gray-700 mb-6">
+          <%= @product.description %>
+        </div>
+
+        <div class="mb-6">
+          <h3 class="text-sm font-medium text-gray-900 mb-2">Unit</h3>
+          <p class="text-gray-600"><%= @product.unit %></p>
+        </div>
+
+        <% if @product.brand.present? %>
+          <div class="mb-6">
+            <h3 class="text-sm font-medium text-gray-900 mb-2">Brand</h3>
+            <p class="text-gray-600"><%= @product.brand %></p>
+          </div>
+        <% end %>
+
+        <div class="mb-6">
+          <h3 class="text-sm font-medium text-gray-900 mb-2">Availability</h3>
+          <% if @product.in_stock? %>
+            <p class="text-green-600">
+              <%= @product.low_stock? ? "Only #{@product.stock_quantity} left!" : "In Stock" %>
+            </p>
+          <% else %>
+            <p class="text-red-600">Out of Stock</p>
+          <% end %>
+        </div>
+
+        <div class="flex space-x-4">
+          <% if @product.in_stock? %>
+            <div class="flex-1">
+              <%= form_tag add_to_cart_product_path(@product), method: :post, class: "flex space-x-4", data: { controller: "cart" } do %>
+                <div class="w-32">
+                  <label for="quantity" class="sr-only">Quantity</label>
+                  <%= number_field_tag :quantity, 1, class: "w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500", min: 1, max: @product.stock_quantity %>
+                </div>
+                <%= submit_tag "Add to Cart", class: "flex-1 bg-primary-600 text-white py-3 px-8 rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500" %>
+              <% end %>
+            </div>
+          <% else %>
+            <button disabled class="flex-1 bg-gray-300 text-gray-500 py-3 px-8 rounded-md cursor-not-allowed">
+              Out of Stock
+            </button>
+          <% end %>
+
+          <%= render "shared/wishlist_button", product: @product, class: "py-3 px-4 border border-gray-300 rounded-md hover:bg-gray-50" %>
+        </div>
+
+        <div class="mt-8 border-t pt-8">
+          <h3 class="text-lg font-semibold mb-4">Share this product</h3>
+          <div class="flex space-x-4">
+            <%# Facebook Share %>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<%= product_url(@product) %>"
+               target="_blank"
+               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+              <svg class="w-5 h-5 text-[#1877F2] mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/>
+              </svg>
+              Share
+            </a>
+
+            <%# Twitter Share %>
+            <a href="https://twitter.com/intent/tweet?url=<%= product_url(@product) %>&text=<%= @product.name %>"
+               target="_blank"
+               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+              <svg class="w-5 h-5 text-[#1DA1F2] mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+              </svg>
+              Tweet
+            </a>
+
+            <%# WhatsApp Share %>
+            <a href="https://wa.me/?text=<%= @product.name %>%20-%20<%= product_url(@product) %>"
+               target="_blank"
+               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+              <svg class="w-5 h-5 text-[#25D366] mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+              </svg>
+              Share
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="mt-16">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8">Customer Reviews</h2>
+      
+      <% cache [@product, 'reviews', @reviews.current_page] do %>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <%= render partial: "reviews/review", collection: @reviews %>
+        </div>
+
+        <div class="mt-8">
+          <%= paginate @reviews %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Related Products -->
+    <% cache [@product, 'related_products'] do %>
+      <% if @related_products.any? %>
+        <div class="mt-16">
+          <h2 class="text-2xl font-bold text-gray-900 mb-8">Related Products</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <%= render partial: "products/product", collection: @related_products %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<% content_for :scripts do %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      new Swiper('.product-images', {
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+      });
+    });
+  </script> 

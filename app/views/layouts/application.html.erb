@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full bg-gray-50">
   <head>
-    <title><%= content_for(:title) || "Groceryapp" %></title>
+    <title>GrocerApp - Fresh Groceries Delivered</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -13,10 +13,19 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="h-full">
+    <%= render 'shared/flash' %>
+    <%= render 'shared/header' %>
+    
+    <main class="container mx-auto px-4 py-8">
+      <%= yield %>
+    </main>
+
+    <%= render 'shared/footer' %>
   </body>
 </html>

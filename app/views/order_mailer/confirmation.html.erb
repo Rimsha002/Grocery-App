@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+      /* Email styles */
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.5;
+        color: #333;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #16a34a;
+        text-decoration: none;
+      }
+      .order-info {
+        background-color: #f9fafb;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+      .order-number {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .order-status {
+        display: inline-block;
+        background-color: #dcfce7;
+        color: #16a34a;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      .items-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+      }
+      .items-table th {
+        background-color: #f3f4f6;
+        text-align: left;
+        padding: 12px;
+      }
+      .items-table td {
+        padding: 12px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      .total-row td {
+        font-weight: bold;
+        border-top: 2px solid #e5e7eb;
+      }
+      .button {
+        display: inline-block;
+        background-color: #16a34a;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        text-decoration: none;
+        margin-top: 20px;
+      }
+      .footer {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 14px;
+        color: #6b7280;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="header">
+      <%= link_to root_url, class: "logo" do %>
+        GrocerApp
+      <% end %>
+    </div>
+
+    <p>Dear <%= @user.first_name %>,</p>
+
+    <p>Thank you for your order! We're excited to get your groceries to you.</p>
+
+    <div class="order-info">
+      <div class="order-number">
+        Order #<%= @order.number %>
+      </div>
+      <div class="order-status">
+        <%= @order.status.titleize %>
+      </div>
+      <p>
+        Placed on <%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+      </p>
+    </div>
+
+    <h2>Order Details</h2>
+
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order.order_items.each do |item| %>
+          <tr>
+            <td><%= item.product.name %></td>
+            <td><%= item.quantity %></td>
+            <td>$<%= number_with_precision(item.unit_price, precision: 2) %></td>
+            <td>$<%= number_with_precision(item.total_price, precision: 2) %></td>
+          </tr>
+        <% end %>
+        <tr class="total-row">
+          <td colspan="3">Subtotal</td>
+          <td>$<%= number_with_precision(@order.subtotal, precision: 2) %></td>
+        </tr>
+        <tr>
+          <td colspan="3">Shipping</td>
+          <td>$<%= number_with_precision(@order.shipping_fee, precision: 2) %></td>
+        </tr>
+        <% if @order.discount.present? %>
+          <tr>
+            <td colspan="3">Discount</td>
+            <td>-$<%= number_with_precision(@order.discount_amount, precision: 2) %></td>
+          </tr>
+        <% end %>
+        <tr class="total-row">
+          <td colspan="3">Total</td>
+          <td>$<%= number_with_precision(@order.total, precision: 2) %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Delivery Information</h2>
+    <div class="order-info">
+      <p>
+        <strong>Delivery Address:</strong><br>
+        <%= @order.shipping_address.full_name %><br>
+        <%= @order.shipping_address.street_address %><br>
+        <% if @order.shipping_address.apartment.present? %>
+          <%= @order.shipping_address.apartment %><br>
+        <% end %>
+        <%= @order.shipping_address.city %>, <%= @order.shipping_address.state %> <%= @order.shipping_address.zip_code %>
+      </p>
+      <p>
+        <strong>Contact Number:</strong><br>
+        <%= @order.shipping_address.phone %>
+      </p>
+    </div>
+
+    <%= link_to "View Order Details", order_url(@order), class: "button" %>
+
+    <div class="footer">
+      <p>
+        If you have any questions about your order, please don't hesitate to
+        <%= mail_to "support@grocerapp.com", "contact our support team" %>.
+      </p>
+      <p>
+        Thank you for shopping with GrocerApp!
+      </p>
+    </div>
+  </body>
+</html> 
