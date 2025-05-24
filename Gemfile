@@ -13,7 +13,7 @@ gem "redis", ">= 4.0.1"
 # Authentication
 gem "devise", "~> 4.9.3"
 gem "omniauth", "~> 2.1.1"
-gem "omniauth-google-oauth2", "~> 1.1.1"
+gem "omniauth-google-oauth2", "~> 1.2.1"
 gem "omniauth-rails_csrf_protection", "~> 1.0.1"
 
 # Authorization
