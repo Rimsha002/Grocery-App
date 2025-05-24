@@ -14,16 +14,16 @@ module.exports = {
       },
       colors: {
         primary: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efac',
-          400: '#4ade80',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#14532d',
+          50: '#FFF7E6',
+          100: '#FFE4BF',
+          200: '#FFD199',
+          300: '#FFBE73',
+          400: '#FFAB4C',
+          500: '#FF8B01', // Main primary color
+          600: '#FA6F01', // Darker shade
+          700: '#F55301', // Darkest shade
+          800: '#CC4501',
+          900: '#A33701',
         },
       },
     },

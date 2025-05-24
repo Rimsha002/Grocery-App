@@ -13,3 +13,98 @@
  *= require_tree .
  *= require_self
  */
+
+/* Import Tailwind CSS */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Custom primary color overrides */
+:root {
+  --primary-50: #FFF7E6;
+  --primary-100: #FFE4BF;
+  --primary-200: #FFD199;
+  --primary-300: #FFBE73;
+  --primary-400: #FFAB4C;
+  --primary-500: #FF8B01;
+  --primary-600: #FA6F01;
+  --primary-700: #F55301;
+  --primary-800: #CC4501;
+  --primary-900: #A33701;
+}
+
+/* Force color overrides with transitions */
+.text-primary-500 { 
+  color: var(--primary-500) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+.text-primary-600 { 
+  color: var(--primary-600) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+.text-primary-700 { 
+  color: var(--primary-700) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+/* Border color overrides */
+.border-primary-500 { border-color: var(--primary-500) !important; }
+.border-primary-600 { border-color: var(--primary-600) !important; }
+.border-primary-700 { border-color: var(--primary-700) !important; }
+
+.bg-primary-50 { 
+  background-color: var(--primary-50) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+.bg-primary-100 { 
+  background-color: var(--primary-100) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+.bg-primary-500 { 
+  background-color: var(--primary-500) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+.bg-primary-600 { 
+  background-color: var(--primary-600) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+.bg-primary-700 { 
+  background-color: var(--primary-700) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+/* Button hover effects */
+.hover\:bg-primary-600:hover {
+  background-color: var(--primary-600) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.hover\:bg-primary-700:hover {
+  background-color: var(--primary-700) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Force gradient overrides with transitions */
+.bg-gradient-to-r.from-primary-500.to-primary-600 {
+  background-image: linear-gradient(to right, var(--primary-500), var(--primary-600)) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+.bg-gradient-to-r.from-primary-600.to-primary-700 {
+  background-image: linear-gradient(to right, var(--primary-600), var(--primary-700)) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+/* Hover gradient effects */
+.hover\:from-primary-600.hover\:to-primary-700:hover {
+  background-image: linear-gradient(to right, var(--primary-600), var(--primary-700)) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Add smooth transitions to all interactive elements */
+button, a, input[type="submit"] {
+  transition: all 0.3s ease-in-out !important;
+}

@@ -1,10 +1,10 @@
 <%# Header %>
-<header class="bg-white shadow-sm">
+<header class="bg-white shadow-lg sticky top-0 z-50">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       <%# Logo %>
       <%= link_to root_path, class: "flex-shrink-0" do %>
-        <h1 class="text-2xl font-bold text-green-600">GrocerApp</h1>
+        <h1 class="text-2xl font-bold text-primary-500">GrocerApp</h1>
       <% end %>
 
       <%# Search Bar %>
@@ -37,19 +37,19 @@
           </button>
 
           <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden"
-              data-dropdown-target="menu"
-              role="menu">
-            <% Category.all.each do |category| %>
-              <%= link_to category.name, category_products_path(category),
-                  class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100",
-                  role: "menuitem" %>
-            <% end %>
-          </div>
+          data-dropdown-target="menu"
+          role="menu">
+        <% Category.all.each do |category| %>
+          <%= link_to category.name, category_path(category),  # <-- Change this line
+              class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100",
+              role: "menuitem" %>
+        <% end %>
+      </div>
         </div>
 
         <%# Cart %>
-        <%= link_to cart_path, class: "relative inline-flex items-center text-gray-700 hover:text-gray-900" do %>
-          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <%= link_to cart_path, class: "relative inline-flex items-center text-primary-500 hover:text-primary-700" do %>
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="orange" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
           </svg>
           <% if current_user&.cart&.items_count&.positive? %>
@@ -98,11 +98,14 @@
                   role: "menuitem" %>
             </div>
           </div>
-        <% else %>
+        
+          <% else %>
           <%= link_to "Sign In", new_user_session_path,
               class: "text-sm font-medium text-gray-700 hover:text-gray-900" %>
+          
           <%= link_to "Sign Up", new_user_registration_path,
-              class: "ml-8 inline-flex items-center justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" %>
+              class: "ml-8 inline-flex items-center justify-center rounded-md bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm 
+                 hover:from-primary-600 hover:to-primary-700 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600" %>
         <% end %>
       </nav>
     </div>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Thank you for your order, <%= @user.name %>!</h1>
+    <p>
+      Your order has been received and is being processed.
+      Order number: <%= @order.id %>
+    </p>
+    <p>
+      Order Details:
+    </p>
+    <ul>
+      <% @order.order_items.each do |item| %>
+        <li>
+          <%= item.product.name %> - Quantity: <%= item.quantity %> - Price: <%= number_to_currency(item.price) %>
+        </li>
+      <% end %>
+    </ul>
+    <p>
+      Total Amount: <%= number_to_currency(@order.total_price) %>
+    </p>
+    <p>
+      You can view your order status by logging into your account.
+    </p>
+  </body>
+</html>

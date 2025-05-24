@@ -98,7 +98,7 @@ GEM
       ruby2_keywords (>= 0.0.2)
     ast (2.4.3)
     aws-eventstream (1.3.2)
-    aws-partitions (1.1103.0)
+    aws-partitions (1.1106.0)
     aws-sdk-core (3.224.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -138,12 +138,15 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    cgi (0.4.2)
     childprocess (5.1.0)
       logger (~> 1.5)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.3)
     crass (1.0.6)
     csv (3.3.4)
+    dartsass-rails (0.4.1)
+      railties (>= 6.0.0)
     database_cleaner-active_record (2.2.1)
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
@@ -159,7 +162,9 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.6.2)
-    drb (2.2.1)
+    drb (2.2.3)
+    erb (4.0.4)
+      cgi (>= 0.3.3)
     error_highlight (0.7.0)
     erubi (1.13.1)
     factory_bot (6.5.1)
@@ -219,7 +224,7 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    json (2.12.0)
+    json (2.12.2)
     jwt (2.10.1)
       base64
     kaminari (1.2.2)
@@ -292,13 +297,14 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.8-x86_64-linux-musl)
       racc (~> 1.4)
-    oauth2 (2.0.9)
-      faraday (>= 0.17.3, < 3.0)
-      jwt (>= 1.0, < 3.0)
+    oauth2 (2.0.11)
+      faraday (>= 0.17.3, < 4.0)
+      jwt (>= 1.0, < 4.0)
+      logger (~> 1.2)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 4)
-      snaky_hash (~> 2.0)
-      version_gem (~> 1.1)
+      snaky_hash (~> 2.0, >= 2.0.3)
+      version_gem (>= 1.1.8, < 3)
     omniauth (2.1.3)
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
@@ -334,9 +340,10 @@ GEM
     puma (6.6.0)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (3.1.14)
-    rack-cors (2.0.2)
-      rack (>= 2.0.0)
+    rack (3.1.15)
+    rack-cors (3.0.0)
+      logger
+      rack (>= 3.0.14)
     rack-mini-profiler (3.3.1)
       rack (>= 1.2.0)
     rack-protection (4.1.1)
@@ -364,7 +371,7 @@ GEM
       activesupport (= 7.2.2.1)
       bundler (>= 1.15.0)
       railties (= 7.2.2.1)
-    rails-dom-testing (2.2.0)
+    rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
@@ -385,7 +392,8 @@ GEM
       activerecord (>= 6.1.5)
       activesupport (>= 6.1.5)
       i18n
-    rdoc (6.13.1)
+    rdoc (6.14.0)
+      erb
       psych (>= 4.0.0)
     redis (5.4.0)
       redis-client (>= 0.22.0)
@@ -415,7 +423,7 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.3)
-    rubocop (1.75.6)
+    rubocop (1.75.7)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -433,12 +441,12 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.38.0, < 2.0)
-    rubocop-rails (2.31.0)
+    rubocop-rails (2.32.0)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
       rubocop (>= 1.75.0, < 2.0)
-      rubocop-ast (>= 1.38.0, < 2.0)
+      rubocop-ast (>= 1.44.0, < 2.0)
     rubocop-rails-omakase (1.1.0)
       rubocop (>= 1.72)
       rubocop-performance (>= 1.24)
@@ -449,10 +457,16 @@ GEM
       logger
     ruby2_keywords (0.0.5)
     rubyzip (2.4.1)
+    sassc (2.4.0)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     securerandom (0.4.1)
-    selenium-webdriver (4.32.0)
-      base64 (~> 0.2)
-      logger (~> 1.4)
+    selenium-webdriver (4.10.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -460,9 +474,9 @@ GEM
       activesupport (>= 5.2.0)
     sitemap_generator (6.3.0)
       builder (~> 3.0)
-    snaky_hash (2.0.1)
-      hashie
-      version_gem (~> 1.1, >= 1.1.1)
+    snaky_hash (2.0.3)
+      hashie (>= 0.1.0, < 6)
+      version_gem (>= 1.1.8, < 3)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -474,6 +488,7 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.7)
+    stripe (15.1.0)
     tailwindcss-rails (4.2.3)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
@@ -485,6 +500,7 @@ GEM
     tailwindcss-ruby (4.1.7-x86_64-linux-gnu)
     tailwindcss-ruby (4.1.7-x86_64-linux-musl)
     thor (1.3.2)
+    tilt (2.6.0)
     timeout (0.4.3)
     turbo-rails (2.0.13)
       actionpack (>= 7.1.0)
@@ -505,10 +521,10 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webdrivers (5.2.0)
+    webdrivers (5.3.1)
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
-      selenium-webdriver (~> 4.0)
+      selenium-webdriver (~> 4.0, < 4.11)
     websocket (1.2.11)
     websocket-driver (0.7.7)
       base64
@@ -538,6 +554,7 @@ DEPENDENCIES
   bullet
   cancancan
   capybara
+  dartsass-rails (~> 0.4.0)
   database_cleaner-active_record
   debug
   devise (~> 4.9.3)
@@ -564,11 +581,13 @@ DEPENDENCIES
   redis (>= 4.0.1)
   rspec-rails
   rubocop-rails-omakase
+  sassc-rails
   selenium-webdriver
   shoulda-matchers
   sitemap_generator
   sprockets-rails
   stimulus-rails
+  stripe
   tailwindcss-rails
   turbo-rails
   tzinfo-data
