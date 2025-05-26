@@ -25,7 +25,7 @@ gem "activeadmin"
 # Asset pipeline & CSS
 gem "sprockets-rails"
 gem "sassc-rails"
-gem "dartsass-rails", "~> 0.4.0"
+gem "dartsass-rails", "~> 0.5.1"
 
 # File Upload and Image Processing
 gem "image_processing", "~> 1.2"
