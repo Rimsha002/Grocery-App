@@ -224,14 +224,10 @@ ActiveAdmin.setup do |config|
   # up your own stylesheets / javascripts to customize the look
   # and feel.
   #
-  # To load a stylesheet:
-  #   config.register_stylesheet 'my_stylesheet.css'
-  #
-  # You can provide an options hash for more control, which is passed along to stylesheet_link_tag():
-  #   config.register_stylesheet 'my_print_stylesheet.css', media: :print
-  #
-  # To load a javascript file:
-  #   config.register_javascript 'my_javascript.js'
+  config.register_stylesheet 'active_admin.scss'
+  
+  # Register your custom JavaScript
+  config.register_javascript 'active_admin_custom.js'
 
   # == CSV options
   #

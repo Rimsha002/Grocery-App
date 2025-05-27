@@ -2,7 +2,7 @@
 <div class="relative min-h-[600px] bg-white overflow-hidden">
   <!-- Background image with overlay -->
   <div class="absolute inset-0 z-0  ">
-    <div class="w-full h-full bg-cover bg-center" style="background-image: url('/images/hero4.jpg')"></div>
+    <div class="w-full h-full bg-cover bg-center" style="background-image: url('/images/hero1.jpg')"></div>
     <div class="absolute inset-0 bg-black/40"></div>
   </div>
 
@@ -34,40 +34,54 @@
 
 <!-- Featured Categories -->
 <div class="bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="max-w-2xl mx-auto py-16 sm:py-24 lg:py-32 lg:max-w-none">
-      <h2 class="text-2xl font-extrabold text-gray-900">Featured Categories</h2>
-      <div class="mt-6 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-6">
-        <% Category.active.limit(3).each do |category| %>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4">
+    <div class="max-w-1xl mx-auto py-2 sm:py-24 lg:py-32 lg:max-w-none">
+      <h2 class="text-2xl font-extrabold text-gray-900 mb-10">Categories</h2>
+      <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <% 
+          # Create a hash mapping category names to their respective image paths
+          category_images = {
+            "Breakfast Essentials" => "/images/categories/breakfast.jpeg",
+            "Milk & Dairy" => "/images/categories/milk.jpeg",
+            "Fruits & Vegetables" => "/images/categories/fruitAndVegetable.jpeg",
+            "Meat & Seafood" => "/images/categories/meat.jpeg",
+            "Oil, Ghee & Masala" => "/images/categories/oils.jpeg",
+            "Daal, Rice, Atta & Cheeni" => "/images/categories/rice.jpeg",
+            "Sauces & Pastes" => "/images/categories/sauces.jpeg",
+            "Baking & Pantry" => "/images/categories/baking.jpeg",
+            "Snacks & Munchies" => "/images/categories/snacks.jpeg",
+            "Tea, Cold Drinks & Juices" => "/images/categories/drinks.jpeg",
+            "Dry Fruit & Nuts" => "/images/categories/dryfruit.jpeg",
+            "Frozen & Chilled" => "/images/categories/frozen.jpeg"
+          }
+          
+          categories = category_images.keys
+        %>
+        
+        <% categories.each do |category_name| %>
           <div class="group relative">
-            <div class="relative w-full h-80 bg-green-100 rounded-lg overflow-hidden group-hover:opacity-75">
-              <div class="w-full h-full flex items-center justify-center">
-                <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                </svg>
-              </div>
+            <div class="relative w-full h-25 overflow-hidden group-hover:opacity-75 transition-all duration-300">
+              <!-- Category specific image -->
+              <% if category_images[category_name].present? %>
+                <%= image_tag category_images[category_name], 
+                    class: "w-full h-full object-cover", 
+                    alt: "#{category_name}" %>
+              <% else %>
+                <!-- Fallback to placeholder if image not found -->
+                <div class="w-full h-full flex items-center justify-center">
+                  <svg class="w-12 h-12 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                </div>
+              <% end %>
             </div>
-            <h3 class="mt-6 text-sm text-gray-500">
-              <%= link_to category.name, category_path(category), class: "text-base font-semibold text-gray-900" %>
-            </h3>
-            <p class="text-base font-semibold text-gray-900"><%= pluralize(category.products.count, 'product') %></p>
+            
+            <!-- Category name as button -->
+            <div class="mt-2">
+              <%= link_to category_name, "#", class: "w-full inline-flex justify-center items-center px-4 py-2 outline-none shadow-sm text-sm font-medium rounded-md text-white bg-primary-500 hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300" %>
+            </div>
           </div>
         <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Featured Products -->
-<div class="bg-gray-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="max-w-2xl mx-auto py-16 sm:py-24 lg:py-32 lg:max-w-none">
-      <div class="flex justify-between items-center">
-        <h2 class="text-2xl font-extrabold text-gray-900">Featured Products</h2>
-        <%= link_to 'View all', products_path, class: "text-green-600 hover:text-green-500" %>
-      </div>
-      <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4">
-        <%= render partial: 'products/product', collection: Product.featured.limit(4) %>
       </div>
     </div>
   </div>
@@ -111,4 +125,4 @@
       </div>
     </div>
   </div>
-</div> 
+</div>

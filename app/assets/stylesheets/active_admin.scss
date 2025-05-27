@@ -7,11 +7,274 @@
 // For example, to change the sidebar width:
 // $sidebar-width: 242px;
 
+// Custom color variables
+$primary-color: #FF8B01;       // Your primary orange color
+$secondary-color: #F55301;     // Darker orange for hover states
+$text-color: #464646;          // Dark gray for text
+$link-color: $primary-color;   // Links use primary color
+$header-color: #2c3e50;        // Dark blue-gray for headers
+$sidebar-width: 270px;         // Wider sidebar
+
 // Active Admin's got SASS!
 @import "active_admin/mixins";
 @import "active_admin/base";
 
-// Overriding any non-variable Sass must be done after the fact.
-// For example, to change the default status-tag color:
-//
-//   .status_tag { background: #6090DB; }
+// Overriding styles
+body.active_admin {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  
+  .header {
+    background: $header-color;
+    text-shadow: none;
+    
+    h1.site_title {
+      font-weight: 600;
+      padding-left: 25px;
+      
+      &:before {
+        content: "🛒 ";  // Shopping cart emoji
+      }
+    }
+  }
+  
+  #title_bar {
+    background: lighten($header-color, 5%);
+    border-bottom: 1px solid darken($header-color, 5%);
+    text-shadow: none;
+    
+    #titlebar_left h2 {
+      font-weight: 600;
+    }
+  }
+  
+  .table_tools .scope {
+    &.selected {
+      background: $primary-color;
+      
+      &:hover {
+        background: darken($primary-color, 5%);
+      }
+    }
+  }
+  
+  // Buttons styling
+  .action_item a, 
+  input[type="submit"], 
+  .button, 
+  a.button {
+    background: $primary-color;
+    border-radius: 4px;
+    text-shadow: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: none;
+    padding: 10px 15px;
+    
+    &:hover {
+      background: $secondary-color;
+    }
+  }
+  
+  // Dashboard panels
+  .panel {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    
+    h3 {
+      background: lighten($header-color, 60%);
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      font-weight: 600;
+    }
+  }
+  
+  // Sidebar
+  #sidebar {
+    background: #f8f9fa;
+    box-shadow: inset -1px 0 0 rgba(0,0,0,0.1);
+    
+    .panel_contents {
+      padding: 12px;
+    }
+  }
+  
+  // Status tags
+  .status_tag {
+    border-radius: 12px;
+    padding: 3px 10px;
+    font-weight: 500;
+    
+    &.ok, &.published, &.complete, &.completed, &.green, &.yes {
+      background: #16a34a;
+    }
+    
+    &.warn, &.warning, &.orange {
+      background: #f97316;
+    }
+    
+    &.error, &.errored, &.red, &.no {
+      background: #dc2626;
+    }
+  }
+  
+  // Tables
+  .index_table {
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    
+    th {
+      background: #f1f5f9;
+    }
+    
+    tr.even td {
+      background: #f8fafc;
+    }
+  }
+}
+
+// Fix pagination
+.pagination {
+  .page.current {
+    background: $primary-color;
+  }
+  
+  a {
+    color: $text-color;
+    
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
+// Form styling
+form fieldset {
+  border-radius: 6px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  
+  legend {
+    font-weight: 600;
+    color: $header-color;
+  }
+  
+  ol > li {
+    padding: 12px;
+    
+    label {
+      font-weight: 500;
+    }
+  }
+}
+
+// Filter sidebar
+.filter_form {
+  .filter_form_field {
+    margin-bottom: 12px;
+    
+    label {
+      font-weight: 500;
+      color: $text-color;
+    }
+    
+    input, select {
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+      padding: 6px 8px;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 2px rgba($primary-color, 0.25);
+        outline: none;
+      }
+    }
+  }
+  
+  .buttons {
+    input[type="submit"] {
+      margin-right: 8px;
+    }
+  }
+}
+
+// Comments section
+.active_admin_comment {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  margin-bottom: 12px;
+  
+  .active_admin_comment_meta {
+    background: #f8fafc;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    padding: 8px 12px;
+  }
+}
+
+// Improve show page
+.attributes_table {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  
+  th {
+    background: #f1f5f9;
+  }
+}
+
+// Breadcrumbs
+.breadcrumb {
+  a {
+    color: lighten($primary-color, 10%);
+    
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
+// Flash messages
+.flashes {
+  .flash {
+    border-radius: 4px;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: none;
+    
+    &.flash_notice {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    
+    &.flash_error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+  }
+}
+
+// Dropdown menus
+.dropdown_menu {
+  .dropdown_menu_button {
+    background: #f8fafc;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    
+    &:hover {
+      background: #f1f5f9;
+    }
+  }
+  
+  .dropdown_menu_list {
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    
+    li a {
+      &:hover {
+        background: #f1f5f9;
+      }
+    }
+  }
+}

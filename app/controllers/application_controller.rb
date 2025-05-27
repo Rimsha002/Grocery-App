@@ -5,6 +5,14 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_current_cart
   
+  helper :all # Makes all helpers available to all views
+  
+  # Or specifically include the CartHelper
+  # helper CartHelper
+  
+  # Temporary fallback cart count method for development
+  helper_method :cart_count
+  
   private
 
   def configure_permitted_parameters
@@ -33,6 +41,11 @@ class ApplicationController < ActionController::Base
 
   def current_cart
     @current_cart ||= set_current_cart
+  end
+
+  def cart_count
+    # Temporary implementation until you set up your cart model
+    session[:cart]&.values&.sum || 0
   end
   helper_method :current_cart
 end

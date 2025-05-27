@@ -22,42 +22,24 @@
         <% end %>
       </div>
 
-      <%# Navigation %>
-      <nav class="flex items-center space-x-8">
-        <%# Categories Dropdown %>
-        <div class="relative" data-controller="dropdown">
-          <button type="button"
-              class="inline-flex items-center text-gray-700 hover:text-gray-900"
-              data-action="click->dropdown#toggle"
-              data-dropdown-target="button">
-            <span class="text-sm font-medium">Categories</span>
-            <svg class="ml-1.5 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-            </svg>
-          </button>
-
-          <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden"
-          data-dropdown-target="menu"
-          role="menu">
-        <% Category.all.each do |category| %>
-          <%= link_to category.name, category_path(category),  # <-- Change this line
-              class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100",
-              role: "menuitem" %>
-        <% end %>
-      </div>
-        </div>
+      
 
         <%# Cart %>
-        <%= link_to cart_path, class: "relative inline-flex items-center text-primary-500 hover:text-primary-700" do %>
-          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="orange" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-          </svg>
-          <% if current_user&.cart&.items_count&.positive? %>
-            <span class="absolute -top-2 -right-2 inline-flex items-center justify-center h-5 w-5 rounded-full bg-green-600 text-xs font-medium text-white">
-              <%= current_user.cart.items_count %>
-            </span>
+        <div class="relative">
+          <%= link_to cart_path, class: "group -m-2 p-2 flex items-center" do %>
+            <svg class="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <% if defined?(cart_count) && cart_count && cart_count > 0 %>
+              <span class="ml-2 text-sm font-medium text-primary-700 group-hover:text-primary-800">
+                <%= cart_count %>
+              </span>
+              <span class="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-primary-600 rounded-full">
+                <%= cart_count %>
+              </span>
+            <% end %>
           <% end %>
-        <% end %>
+        </div>
 
         <%# User Menu %>
         <% if user_signed_in? %>
@@ -69,8 +51,8 @@
               <% if current_user.avatar.attached? %>
                 <%= image_tag current_user.avatar, class: "h-8 w-8 rounded-full" %>
               <% else %>
-                <div class="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center">
-                  <span class="text-sm font-medium text-green-600">
+                <div class="h-8 w-8 rounded-full bg-primary-200 flex items-center justify-center">
+                  <span class="text-sm font-medium text-primary-600">
                     <%= current_user.first_name[0] %>
                   </span>
                 </div>
@@ -159,4 +141,4 @@
       });
     }
   });
-<% end %> 
+<% end %>

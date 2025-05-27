@@ -108,3 +108,7 @@
 button, a, input[type="submit"] {
   transition: all 0.3s ease-in-out !important;
 }
+
+a {
+  text-decoration: none !important;
+}
